@@ -19,7 +19,6 @@ html, body {
   color: #ffffff;
   font-family: 'Imprima', sans-serif;
   scrollbar-gutter: stable;
-  overflow-x: hidden;
 }
 
 @keyframes bobUp {
