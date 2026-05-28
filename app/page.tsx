@@ -62,18 +62,22 @@ export default function App() {
   const curtainLRef = useRef<HTMLDivElement>(null);
   const curtainRRef = useRef<HTMLDivElement>(null);
 
-  // Scroll Progress Listener
+  // Scroll Progress Listener (Optimized for Mobile Touch Scrolling)
   useEffect(() => {
-    const handleScroll = () => {
+    let animId: number;
+    
+    const updateScroll = () => {
       const container = document.getElementById("outer-container");
-      if (!container) return;
-      const progress = window.scrollY / (container.scrollHeight - window.innerHeight);
-      setScrollProgress(clamp(progress, 0, 1));
+      if (container) {
+        const progress = window.scrollY / (container.scrollHeight - window.innerHeight);
+        setScrollProgress(clamp(progress, 0, 1));
+      }
+      animId = requestAnimationFrame(updateScroll);
     };
+    
+    animId = requestAnimationFrame(updateScroll);
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => cancelAnimationFrame(animId);
   }, []);
 
   // Entrance triggers
